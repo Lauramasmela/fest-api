@@ -16,7 +16,16 @@ public class FestConverter {
         var festDTO = modelMapper.map(fest, FestDTO.class);
         festDTO.setCommuneDTO(communeDTO);
         return festDTO;
-
     }
+
+    public Fest convertDTOToEntity(FestDTO festDTO){
+        var modelMapper = new ModelMapper();
+        var commune = communeConverter.converterDTOToEntity(festDTO.getCommuneDTO());
+        var fest = modelMapper.map(festDTO, Fest.class);
+        fest.setCommune(commune);
+        return fest;
+    }
+
+
 
 }
