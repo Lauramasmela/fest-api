@@ -20,9 +20,16 @@ public class FestController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addNewFest(@RequestBody FestDTO festDTO) {
+    public ResponseEntity<String> addNewFest(@RequestBody FestDTO festDTO) {
         festService.addNewFest(festDTO);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>("Le festival a été enregistré correctement", HttpStatus.CREATED);
     }
+
+    @PutMapping("/edit")
+    public ResponseEntity<String> updateFest(@RequestParam("festId") String festId, @RequestBody FestDTO festDTO) throws FestAPIException {
+        festService.updateFest(festId, festDTO);
+        return new ResponseEntity<>("Le fest "+festId+" a été modifié correctement", HttpStatus.OK);
+    }
+
 
 }

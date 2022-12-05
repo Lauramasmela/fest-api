@@ -17,8 +17,8 @@ public class CommuneService {
 
    }
 
-   public void createCommune(Commune commune){
-      communeRepository.save(commune);
+   public Commune createCommune(Commune commune){
+      return communeRepository.save(commune);
    }
 
 }

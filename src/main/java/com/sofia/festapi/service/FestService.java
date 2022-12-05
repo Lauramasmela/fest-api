@@ -27,17 +27,38 @@ public class FestService {
         return festConverter.convertEntityToDTO(getFestById(festId));
     }
 
+
     public void addNewFest(FestDTO festDTO){
         var newFest = festConverter.convertDTOToEntity(festDTO);
         newFest.setId(UUID.randomUUID().toString().replace("-", ""));
-        var commune = communeService.getCommune(newFest.getCommune());
-        if(commune != null){
-            newFest.setCommune(commune);
-        }else{
-            communeService.createCommune(newFest.getCommune());
-        }
+        createCommuneIfNotExists(newFest);
         festRepository.save(newFest);
     }
+
+    private void createCommuneIfNotExists(Fest fest) {
+        var commune = communeService.getCommune(fest.getCommune());
+        if(commune == null){
+            commune = communeService.createCommune(fest.getCommune());
+        }
+        fest.setCommune(commune);
+    }
+
+    public void updateFest(String festId, FestDTO festDTO) throws FestAPIException {
+       var festFromDB = getFestById(festId);
+       var modifiedFest = festConverter.convertDTOToEntity(festDTO);
+           festFromDB.setNomFest(modifiedFest.getNomFest());
+
+        festFromDB.setDescription(modifiedFest.getDescription());
+        festFromDB.setSiteWeb(modifiedFest.getSiteWeb());
+        festFromDB.setMoisHabituelDebut(modifiedFest.getMoisHabituelDebut());
+        festFromDB.setDateDebut(modifiedFest.getDateDebut());
+        festFromDB.setDateFin(modifiedFest.getDateFin());
+        createCommuneIfNotExists(modifiedFest);
+        festFromDB.setCommune(modifiedFest.getCommune());
+        festFromDB.setPeriodicite(modifiedFest.getPeriodicite());
+        festRepository.save(festFromDB);
+    }
+
 
 
 
