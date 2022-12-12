@@ -59,6 +59,11 @@ public class FestService {
         festRepository.save(festFromDB);
     }
 
+    public void deleteFest(String festId) throws FestAPIException{
+        var festFromDB = getFestById(festId);
+        festRepository.delete(festFromDB);
+    }
+
 
 
 

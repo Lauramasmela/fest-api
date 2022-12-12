@@ -31,5 +31,14 @@ public class FestController {
         return new ResponseEntity<>("Le fest "+festId+" a été modifié correctement", HttpStatus.OK);
     }
 
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteFest(@RequestParam("festId") String festId) throws FestAPIException {
+        festService.deleteFest(festId);
+        return new ResponseEntity<>("Le fest a été supprimé correctement", HttpStatus.OK);
+    }
+
+
+
+
 
 }
